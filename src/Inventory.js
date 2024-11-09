@@ -1,5 +1,3 @@
-import { Console } from "@woowacourse/mission-utils";
-
 export class Inventory {
   #products;
 
@@ -29,6 +27,12 @@ export class Inventory {
     };
   }
   //[ using in constructor ] end
+
+  checkOrder(order) {
+    return order.every(
+      ([product, quantity]) => this.#products[product].quantity >= quantity
+    );
+  }
 
   getProductInfo(index) {
     return this.#products[index];

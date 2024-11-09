@@ -26,9 +26,22 @@ describe("재고 관리 기능 테스트", () => {
     }
   );
 
-  //   test("각 상품의 재고 수량을 고려하여 결제 가능 여부를 확인한다.", () => {
-  //     const inventory = new Inventory(products);
-  //     const USER_ORDER = { 콜라: 10, 사이다: 3 };
-  //     expect(inventory.checkOrder(USER_ORDER)).toBe(true);
-  //   });
+  test.each([
+    [
+      [
+        ["콜라", 10],
+        ["사이다", 3],
+      ],
+      true,
+    ],
+    [[["콜라", 11]], false],
+    [[["오렌지주스pro", 9]], true],
+    [[["탄산수", 6]], false],
+  ])(
+    "각 상품의 재고 수량을 고려하여 결제 가능 여부를 확인한다.",
+    (userOrder, result) => {
+      const inventory = new Inventory(products);
+      expect(inventory.checkOrder(userOrder)).toBe(result);
+    }
+  );
 });
