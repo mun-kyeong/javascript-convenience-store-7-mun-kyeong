@@ -15,6 +15,11 @@ export class Promotion {
     });
   }
 
+  isPromotionPeriod(today, promotionName) {
+    const promotion = this.#promotions[promotionName];
+    return today >= promotion.start_date && today <= promotion.end_date;
+  }
+
   getPromotionInfo(promotionName) {
     return this.#promotions[promotionName];
   }

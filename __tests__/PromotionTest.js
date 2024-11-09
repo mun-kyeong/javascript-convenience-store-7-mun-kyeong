@@ -1,3 +1,4 @@
+import { Console } from "@woowacourse/mission-utils";
 import { Promotion } from "../src/Promotion";
 import { readDocs } from "../src/utils/readDocs";
 
@@ -6,6 +7,11 @@ describe("프로모션 행사 test ", () => {
   beforeEach(async () => {
     const promotions = await readDocs("promotions");
     promotion = new Promotion(promotions);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   test.each([
@@ -27,10 +33,13 @@ describe("프로모션 행사 test ", () => {
 
   test.each([
     ["탄산2+1", true],
-    ["MD추천상품", false],
-    ["반짝할인", true],
-  ])("오늘 날짜가 %s 행사 기간에 포함되는지 확인한다.", (promotion, result) => {
-    const TODAY = "2024-11-10";
-    expect(promotion.isPromotionPeriod(TODAY, promotion)).toBe(result);
-  });
+    ["MD추천상품", true],
+    ["반짝할인", false],
+  ])(
+    "오늘 날짜가 %s 행사 기간에 포함되는지 확인한다.",
+    (promotions, result) => {
+      const TODAY = "2024-10-01";
+      expect(promotion.isPromotionPeriod(TODAY, promotions)).toBe(result);
+    }
+  );
 });
