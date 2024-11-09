@@ -1,7 +1,9 @@
+import { Membership } from "../src/Membership";
+
 describe("멤버십 클래스 test ", () => {
   let membership;
   beforeEach(async () => {
-    const membership = new Membership();
+    membership = new Membership();
   });
 
   afterEach(() => {
