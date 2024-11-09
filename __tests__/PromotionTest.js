@@ -7,6 +7,7 @@ describe("프로모션 행사 test ", () => {
     const promotions = await readDocs("promotions");
     promotion = new Promotion(promotions);
   });
+
   test.each([
     [
       "탄산2+1",
