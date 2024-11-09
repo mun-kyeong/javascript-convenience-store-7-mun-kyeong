@@ -1,3 +1,5 @@
+import { Console } from "@woowacourse/mission-utils";
+
 export class Inventory {
   #products;
 
@@ -32,6 +34,13 @@ export class Inventory {
     return order.every(
       ([product, quantity]) => this.#products[product].quantity >= quantity
     );
+  }
+
+  deleteQuantity(order) {
+    order.forEach(([product, quantity]) => {
+      Console.print(product + quantity);
+      this.#products[product].quantity -= quantity;
+    });
   }
 
   getProductInfo(index) {

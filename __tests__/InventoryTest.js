@@ -9,6 +9,11 @@ describe("재고 관리 기능 테스트", () => {
     inventory = new Inventory(products);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
   test.each([
     [
       "콜라pro",
@@ -44,10 +49,29 @@ describe("재고 관리 기능 테스트", () => {
     }
   );
 
-  test("상품 구매 시 결제된 수량만큼 재고 차감", () => {
-    const USER_ORDER = [["콜라", 10]];
-    const convenienceStore = new ConvenienceStore();
-    convenienceStore.order(USER_ORDER);
-    expect(inventory.getProductInfo(USER_ORDER[0][0].quantity)).toBe(0);
+  test.each([
+    [[["콜라", 10]], [0]],
+    [
+      [
+        ["콜라pro", 5],
+        ["콜라", 10],
+      ],
+      [5, 0],
+    ],
+    [
+      [
+        ["감자칩", 3],
+        ["오렌지주스", 8],
+        ["정식도시락", 8],
+      ],
+      [2, 1, 0],
+    ],
+    [[["에너지바", 5]], [0]],
+  ])("상품 구매 시 결제된 수량만큼 재고 차감", (userOrder, result) => {
+    inventory.deleteQuantity(userOrder);
+    userOrder.forEach((order, index) => {
+      const orderInfo = inventory.getProductInfo(order[0]);
+      expect(orderInfo.quantity).toBe(result[index]);
+    });
   });
 });
