@@ -6,21 +6,21 @@ export class Inventory {
   constructor(products) {
     this.#products = {};
     products.forEach((product) => this.#saveProducts(product));
-    Console.print(this.#products);
   }
 
+  //[ using in constructor ] start
   #saveProducts(product) {
     if (this.#isPromotion(product)) {
-      this.#products[`${product[0]}pro`] = this.#save(product);
+      this.#products[`${product[0]}pro`] = this.#saveValue(product);
     }
-    this.#products[product[0]] = this.#save(product);
+    this.#products[product[0]] = this.#saveValue(product);
   }
 
   #isPromotion(product) {
     return product[3] !== "null";
   }
 
-  #save(product) {
+  #saveValue(product) {
     return {
       name: product[0],
       price: Number(product[1]),
@@ -28,6 +28,7 @@ export class Inventory {
       promotion: product[3],
     };
   }
+  //[ using in constructor ] end
 
   getProductInfo(index) {
     return this.#products[index];
