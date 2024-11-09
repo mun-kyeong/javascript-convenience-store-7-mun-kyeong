@@ -1,9 +1,9 @@
-import { readProducts } from "../src/utils/readDocs.js";
+import { readDocs, readFileInfo, readProducts } from "../src/utils/readDocs.js";
 
 describe("Docs파일 읽어오기", () => {
   let products;
   beforeEach(async () => {
-    products = await readProducts();
+    products = await readDocs("products");
   });
 
   test("products.md 파일에서 첫 번째 라인 읽어오기", () => {

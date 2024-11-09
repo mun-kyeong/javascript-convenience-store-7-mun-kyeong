@@ -1,11 +1,11 @@
 import { Console } from "@woowacourse/mission-utils";
 import { Inventory } from "../src/Inventory";
-import { readProducts } from "../src/utils/readDocs";
+import { readDocs, readFileInfo, readProducts } from "../src/utils/readDocs";
 
 describe("재고 관리 기능 테스트", () => {
   let inventory;
   beforeEach(async () => {
-    const products = await readProducts();
+    const products = await readDocs("products");
     inventory = new Inventory(products);
   });
 
