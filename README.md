@@ -29,7 +29,7 @@ $ npm run start
 
 # 2. Key Features (주요 기능)
 
-### 재고 관리 (Inventory)
+### 재고 관리 (Inventory) - class
 
 - [x] 각 상품의 재고 수량을 가져온다.
 - [ ] 각 상품의 재고 수량을 고려하여 결제 가능 여부를 확인한다.
