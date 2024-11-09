@@ -3,9 +3,10 @@ import { Inventory } from "../src/Inventory";
 import { readProducts } from "../src/utils/readDocs";
 
 describe("재고 관리 기능 테스트", () => {
-  let products;
+  let inventory;
   beforeEach(async () => {
-    products = await readProducts();
+    const products = await readProducts();
+    inventory = new Inventory(products);
   });
 
   test.each([
@@ -21,7 +22,6 @@ describe("재고 관리 기능 테스트", () => {
   ])(
     'Inventory 클래스의 "%s" 상품이 저장되는지 확인한다.',
     (keyword, result) => {
-      const inventory = new Inventory(products);
       expect(inventory.getProductInfo(keyword)).toEqual(result);
     }
   );
@@ -40,8 +40,14 @@ describe("재고 관리 기능 테스트", () => {
   ])(
     "각 상품의 재고 수량을 고려하여 결제 가능 여부를 확인한다.",
     (userOrder, result) => {
-      const inventory = new Inventory(products);
       expect(inventory.checkOrder(userOrder)).toBe(result);
     }
   );
+
+  test("상품 구매 시 결제된 수량만큼 재고 차감", () => {
+    const USER_ORDER = [["콜라", 10]];
+    const convenienceStore = new ConvenienceStore();
+    convenienceStore.order(USER_ORDER);
+    expect(inventory.getProductInfo(USER_ORDER[0][0].quantity)).toBe(0);
+  });
 });
