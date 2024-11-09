@@ -1,5 +1,5 @@
 import { Console } from "@woowacourse/mission-utils";
-import { Inventory } from "../src/Inventory";
+import { Inventory } from "../src/repository/Inventory";
 import { readDocs, readFileInfo, readProducts } from "../src/utils/readDocs";
 
 describe("재고 관리 기능 테스트", () => {

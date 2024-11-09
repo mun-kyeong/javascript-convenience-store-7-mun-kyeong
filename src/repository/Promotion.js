@@ -20,7 +20,6 @@ export class Promotion {
   getPromotiondiscount(today, promotionName) {
     if (this.#isPromotionPeriod(today, promotionName)) {
       const todayPromotion = this.#promotions[promotionName];
-      Console.print("aa " + [todayPromotion.buy, todayPromotion.get]);
       return [todayPromotion.buy, todayPromotion.get];
     }
     return [-1, -1];

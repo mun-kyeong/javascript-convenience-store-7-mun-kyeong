@@ -1,5 +1,5 @@
 import { Console } from "@woowacourse/mission-utils";
-import { Promotion } from "../src/Promotion";
+import { Promotion } from "../src/repository/Promotion";
 import { readDocs } from "../src/utils/readDocs";
 
 describe("프로모션 행사 test ", () => {
