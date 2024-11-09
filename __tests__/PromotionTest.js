@@ -32,14 +32,14 @@ describe("프로모션 행사 test ", () => {
   });
 
   test.each([
-    ["탄산2+1", true],
-    ["MD추천상품", true],
-    ["반짝할인", false],
+    ["탄산2+1", [2, 1]],
+    ["MD추천상품", [1, 1]],
+    ["반짝할인", [-1, -1]],
   ])(
-    "오늘 날짜가 %s 행사 기간에 포함되는지 확인한다.",
+    "오늘 날짜가 %s 행사 기간에 포함되면 프로모션 정보를 가져온다.",
     (promotions, result) => {
       const TODAY = "2024-10-01";
-      expect(promotion.isPromotionPeriod(TODAY, promotions)).toBe(result);
+      expect(promotion.getPromotiondiscount(TODAY, promotions)).toEqual(result);
     }
   );
 });

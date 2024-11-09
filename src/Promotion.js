@@ -1,3 +1,5 @@
+import { Console } from "@woowacourse/mission-utils";
+
 export class Promotion {
   #promotions;
 
@@ -15,7 +17,16 @@ export class Promotion {
     });
   }
 
-  isPromotionPeriod(today, promotionName) {
+  getPromotiondiscount(today, promotionName) {
+    if (this.#isPromotionPeriod(today, promotionName)) {
+      const todayPromotion = this.#promotions[promotionName];
+      Console.print("aa " + [todayPromotion.buy, todayPromotion.get]);
+      return [todayPromotion.buy, todayPromotion.get];
+    }
+    return [-1, -1];
+  }
+
+  #isPromotionPeriod(today, promotionName) {
     const promotion = this.#promotions[promotionName];
     return today >= promotion.start_date && today <= promotion.end_date;
   }
