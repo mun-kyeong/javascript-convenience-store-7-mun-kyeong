@@ -4,7 +4,7 @@ import { Inventory } from "../src/repository/Inventory";
 import { readDocs } from "../src/utils/readDocs";
 import { Promotion } from "../src/repository/Promotion";
 
-describe("영수증(Receipt) 클래스 테스트", () => {
+describe("주문목록 클래스 테스트", () => {
   let inventory;
   let promotion;
 
