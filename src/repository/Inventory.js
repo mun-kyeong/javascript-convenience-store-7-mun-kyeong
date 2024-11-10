@@ -13,6 +13,7 @@ export class Inventory {
   #saveProducts(product) {
     if (this.#isPromotion(product)) {
       this.#products[PROMOTION_PRODUCT(product[0])] = this.#saveValue(product);
+      return;
     }
     this.#products[product[0]] = this.#saveValue(product);
   }

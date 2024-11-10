@@ -33,19 +33,19 @@ describe("주문목록 클래스 테스트", () => {
     expect(receipt.getOrderInventory()).toEqual(USER_ORDER_INFO);
   });
 
-  test("프로모션에 따라 무료로 제공된 증정 상품의 목록 저장", () => {
-    const TODAY = "2024-10-01";
-    const USER_ORDER = [
-      ["콜라", 2],
-      ["오렌지주스", 1],
-    ];
-    const PRESENT_ORDER_INFO = {
-      콜라: { quantity: 1, price: 1000 },
-      오렌지주스: { quantity: 1, price: 1800 },
-    };
-    const receipt = new Order(USER_ORDER, inventory);
+  // test("프로모션에 따라 무료로 제공된 증정 상품의 목록 저장", () => {
+  //   const TODAY = "2024-10-01";
+  //   const USER_ORDER = [
+  //     ["콜라", 2],
+  //     ["오렌지주스", 1],
+  //   ];
+  //   const PRESENT_ORDER_INFO = {
+  //     콜라: { quantity: 1, price: 1000 },
+  //     오렌지주스: { quantity: 1, price: 1800 },
+  //   };
+  //   const receipt = new Order(USER_ORDER, inventory);
 
-    // promotion.getPromotiondiscount(TODAY, receipt.getOrderInventory());
-    // expect(receipt.getOrderInventory()).toEqual(PRESENT_ORDER_INFO);
-  });
+  //   // promotion.getPromotiondiscount(TODAY, receipt.getOrderInventory());
+  //   // expect(receipt.getOrderInventory()).toEqual(PRESENT_ORDER_INFO);
+  // });
 });

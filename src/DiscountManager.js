@@ -1,9 +1,9 @@
 import { Console } from "@woowacourse/mission-utils";
-import { PROMOTION_PRODUCT } from "../constant/convenience";
+import { PROMOTION_PRODUCT } from "./constant/convenience";
 
 export class DiscountManager {
   #today;
-  #order;
+  #order; //TODO : 없어져도 될듯
   #promotion;
   #inventory;
 
@@ -48,7 +48,9 @@ export class DiscountManager {
       this.#today,
       this.#inventory.getProductInfo(PROMOTION_PRODUCT(orderInfo[0])).promotion
     );
-    const price = this.#inventory.getProductInfo(orderInfo[0]).price;
+    const price = this.#inventory.getProductInfo(
+      PROMOTION_PRODUCT(orderInfo[0])
+    ).price;
     return { quantity: get, price: price };
   }
   //TODO : 추후 리팩토링 필요

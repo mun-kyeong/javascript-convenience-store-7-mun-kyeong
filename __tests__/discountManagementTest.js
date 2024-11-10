@@ -1,9 +1,7 @@
-import { Console } from "@woowacourse/mission-utils";
-import { Order } from "../src/Order";
 import { Inventory } from "../src/repository/Inventory";
 import { Promotion } from "../src/repository/Promotion";
 import { readDocs } from "../src/utils/readDocs";
-import { DiscountManagement } from "../src/utils/discountManagement";
+import { DiscountManager } from "../src/DiscountManager";
 
 describe("할인 관리자 클래스 테스트", () => {
   let inventory;
@@ -27,13 +25,13 @@ describe("할인 관리자 클래스 테스트", () => {
       콜라: { quantity: 1, price: 1000 },
       오렌지주스: { quantity: 1, price: 1800 },
     };
-    const presentInventory = new DiscountManagement(
+    const discountManager = new DiscountManager(
       TODAY,
       USER_ORDER,
       promotion,
       inventory
     );
-    const result = presentInventory.getPresentInventoryInfo();
+    const result = discountManager.getPresentInventoryInfo();
     expect(result).toEqual(PRESENT_INVENTORY);
   });
 });
