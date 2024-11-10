@@ -10,7 +10,7 @@ export class InventoryManager {
     this.#promotion = promotion;
   }
 
-  deletePromotionFirst(userOrder, todayPromtion) {
+  deletePromotion(userOrder, todayPromtion) {
     userOrder.forEach(([order, quantity]) => {
       if (
         todayPromtion[order] === undefined ||
@@ -19,9 +19,26 @@ export class InventoryManager {
         this.#inventory.deleteQuantity(order, quantity);
         return;
       }
-      Console.print("here");
-      this.#inventory.deleteQuantity(PROMOTION_PRODUCT(order), quantity);
-      return;
+      if (this.#inventory.hasQuantity(PROMOTION_PRODUCT(order), quantity)) {
+        this.#inventory.deleteQuantity(PROMOTION_PRODUCT(order), quantity);
+        return;
+      }
+
+      const availableQuantity = this.#inventory.getProductInfo(
+        PROMOTION_PRODUCT(order)
+      ).quantity;
+
+      this.#inventory.deleteQuantity(
+        PROMOTION_PRODUCT(order),
+        availableQuantity
+      );
+
+      this.deleteNormal(order, quantity - availableQuantity);
     });
+  }
+  //TODO : 함수 분할 필요
+
+  deleteNormal(order, quantity) {
+    this.#inventory.deleteQuantity(order, quantity);
   }
 }
