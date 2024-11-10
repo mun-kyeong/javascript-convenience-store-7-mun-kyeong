@@ -1,5 +1,5 @@
 import { Console } from "@woowacourse/mission-utils";
-import { PROMOTION_PRODUCT } from "./constant/convenience";
+import { PROMOTION_PRODUCT } from "./constant/convenience.js";
 
 export class PromotionManager {
   #today;

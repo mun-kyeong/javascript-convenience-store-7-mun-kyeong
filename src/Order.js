@@ -1,5 +1,4 @@
 import { Console } from "@woowacourse/mission-utils";
-import { Inventory } from "./repository/Inventory";
 import { PROMOTION_PRODUCT } from "./constant/convenience.js";
 import { Membership } from "./Membership.js";
 
@@ -35,13 +34,16 @@ export class Order {
     );
   }
 
-  findAdditionOrder(order, quantity) {
+  findAdditionOrder(order, orderQuantity) {
     const todayPromotion = this.#getTodayPromotion();
-    if (this.isNonPromotionOrder(order, todayPromotion)) return [];
-    const promotionGab = this.#getPromotionGab(order, todayPromotion);
-    const promotionOrder = todayPromotion[order].paidQuantity;
-    if ((quantity - promotionOrder) % promotionGab === 0)
-      return [order, todayPromotion[order].quantity];
+    if (this.isNonPromotionOrder(order, todayPromotion)) return;
+    const { paidQuantity, quantity } = todayPromotion[order];
+    if (
+      (orderQuantity - paidQuantity) % (paidQuantity + quantity) === 0 &&
+      this.#inventoryManager.getOrderQuantity(order) >= orderQuantity + quantity
+    ) {
+      return [order, quantity];
+    }
   }
 
   //프로모션 비혜택 물품 구매 여부 판단

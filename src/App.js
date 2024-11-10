@@ -5,16 +5,24 @@ import { InventoryManager } from "./InventoryManager.js";
 import { readDocs } from "./utils/readDocs.js";
 import { InputHandler } from "./view/InputHandler.js";
 import { Order } from "./Order.js";
-import { printOneLine } from "./view/Console.js";
+import { Promotion } from "./repository/Promotion.js";
+import { PromotionManager } from "./PromotionManager.js";
+import { getCurrentDate } from "./utils/getCurrentDate.js";
 
 class App {
   async run() {
     const products = await readDocs("products");
     const inventory = new Inventory(products);
+    const inventoryManager = new InventoryManager(inventory);
+    const promotions = await readDocs("promotions");
+    const promotion = new Promotion(promotions);
+    const TODAY = getCurrentDate();
+    const promotionManager = new PromotionManager(TODAY, promotion, inventory);
+
     OutputHandler.storeInfo(inventory);
     const userOrder = await InputHandler.getUserOrder();
-    const order = new Order(userOrder);
-    const orderAnswers = await InputHandler.orderQuestion(order);
+    const order = new Order(userOrder, inventoryManager, promotionManager);
+    const orderAnswers = await InputHandler.orderQuestion(order, userOrder);
   }
 }
 
