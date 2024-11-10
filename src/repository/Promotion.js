@@ -1,3 +1,5 @@
+import { Console } from "@woowacourse/mission-utils";
+
 export class Promotion {
   #promotions;
 

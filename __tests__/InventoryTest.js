@@ -24,6 +24,10 @@ describe("재고 관리 기능 테스트", () => {
       { name: "사이다", price: 1000, quantity: 8, promotion: "탄산2+1" },
     ],
     ["사이다", { name: "사이다", price: 1000, quantity: 7, promotion: "null" }],
+    [
+      "오렌지주스pro",
+      { name: "오렌지주스", price: 1800, quantity: 9, promotion: "MD추천상품" },
+    ],
   ])(
     'Inventory 클래스의 "%s" 상품이 저장되는지 확인한다.',
     (keyword, result) => {
