@@ -1,7 +1,7 @@
 import { Console } from "@woowacourse/mission-utils";
 import { Inventory } from "./repository/Inventory";
-import { PROMOTION_PRODUCT } from "./constant/convenience";
-import { Membership } from "./Membership";
+import { PROMOTION_PRODUCT } from "./constant/convenience.js";
+import { Membership } from "./Membership.js";
 
 export class Order {
   #orderInventory = []; // 사용자가 주문한 상품명, 수량, 가격 저장

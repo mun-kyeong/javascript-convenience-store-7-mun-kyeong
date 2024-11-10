@@ -4,6 +4,8 @@ import { Inventory } from "./repository/Inventory.js";
 import { InventoryManager } from "./InventoryManager.js";
 import { readDocs } from "./utils/readDocs.js";
 import { InputHandler } from "./view/InputHandler.js";
+import { Order } from "./Order.js";
+import { printOneLine } from "./view/Console.js";
 
 class App {
   async run() {
@@ -11,7 +13,8 @@ class App {
     const inventory = new Inventory(products);
     OutputHandler.storeInfo(inventory);
     const userOrder = await InputHandler.getUserOrder();
-    Console.print(userOrder);
+    // printOneLine(userOrder); //[[콜라,3]] 형식이 되도록 수정
+    const order = new Order(userOrder);
   }
 }
 
