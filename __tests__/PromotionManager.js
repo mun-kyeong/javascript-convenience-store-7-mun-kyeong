@@ -1,7 +1,7 @@
 import { Inventory } from "../src/repository/Inventory";
 import { Promotion } from "../src/repository/Promotion";
 import { readDocs } from "../src/utils/readDocs";
-import { DiscountManager } from "../src/DiscountManager";
+import { PromotionManager } from "../src/PromotionManager";
 
 describe("할인 관리자 클래스 테스트", () => {
   let inventory;
@@ -25,13 +25,8 @@ describe("할인 관리자 클래스 테스트", () => {
       콜라: { quantity: 1, price: 1000 },
       오렌지주스: { quantity: 1, price: 1800 },
     };
-    const discountManager = new DiscountManager(
-      TODAY,
-      USER_ORDER,
-      promotion,
-      inventory
-    );
-    const result = discountManager.getPresentInventoryInfo();
+    const discountManager = new PromotionManager(TODAY, promotion, inventory);
+    const result = discountManager.getTodayPromotion(USER_ORDER);
     expect(result).toEqual(PRESENT_INVENTORY);
   });
 });
