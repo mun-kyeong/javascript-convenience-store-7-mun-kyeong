@@ -4,4 +4,12 @@ export class Membership {
   checkDiscountLimit(price) {
     return price > this.#maxDiscount;
   }
+
+  getDiscount(price) {
+    const discount = price * 0.3;
+    if (discount > this.#maxDiscount) {
+      return this.#maxDiscount;
+    }
+    return discount;
+  }
 }
