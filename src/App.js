@@ -13,8 +13,8 @@ class App {
     const inventory = new Inventory(products);
     OutputHandler.storeInfo(inventory);
     const userOrder = await InputHandler.getUserOrder();
-    // printOneLine(userOrder); //[[콜라,3]] 형식이 되도록 수정
     const order = new Order(userOrder);
+    const orderAnswers = await InputHandler.orderQuestion(order);
   }
 }
 

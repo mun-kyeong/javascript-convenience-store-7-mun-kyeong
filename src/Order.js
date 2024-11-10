@@ -16,14 +16,6 @@ export class Order {
     this.#orderInventory = orders;
   }
 
-  // #addOrderPirce(order) {
-  //   // Console.print(this.#orderInventory.getPirce);
-  //   return {
-  //     price: this.#inventoryManager.getPrice(order[0]),
-  //     quantity: order[1],
-  //   };
-  // }
-
   getOrderInventory() {
     return this.#orderInventory;
   }
@@ -41,6 +33,15 @@ export class Order {
       [[order, todayPromotion[order].quantity]],
       todayPromotion
     );
+  }
+
+  findAdditionOrder(order, quantity) {
+    const todayPromotion = this.#getTodayPromotion();
+    if (this.isNonPromotionOrder(order, todayPromotion)) return [];
+    const promotionGab = this.#getPromotionGab(order, todayPromotion);
+    const promotionOrder = todayPromotion[order].paidQuantity;
+    if ((quantity - promotionOrder) % promotionGab === 0)
+      return [order, todayPromotion[order].quantity];
   }
 
   //프로모션 비혜택 물품 구매 여부 판단

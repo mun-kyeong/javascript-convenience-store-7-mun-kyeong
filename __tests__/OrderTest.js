@@ -124,4 +124,15 @@ describe("주문목록 클래스 테스트", () => {
     order.applyMembershipDiscount(userAnswer);
     expect(order.getMembershipDiscount()).toBe(membership);
   });
+
+  test.each([
+    [[["콜라", 5]], ["콜라", 1]],
+    [[["오렌지주스", 5]], ["오렌지주스", 1]],
+  ])("추가 가능한 제품이 존재하는지 확인", (userOrder, result) => {
+    const order = new Order(userOrder, inventoryManager, promotionManager);
+    userOrder.forEach((userOrders) => {
+      const orderInfo = order.findAdditionOrder(userOrders[0], userOrders[1]);
+      expect(orderInfo).toEqual(result);
+    });
+  });
 });
