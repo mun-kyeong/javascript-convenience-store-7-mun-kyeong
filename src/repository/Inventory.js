@@ -1,4 +1,5 @@
 import { Console } from "@woowacourse/mission-utils";
+import { PROMOTION_PRODUCT } from "../constant/convenience";
 
 export class Inventory {
   #products;
@@ -11,7 +12,7 @@ export class Inventory {
   //[ using in constructor ] start
   #saveProducts(product) {
     if (this.#isPromotion(product)) {
-      this.#products[`${product[0]}pro`] = this.#saveValue(product);
+      this.#products[PROMOTION_PRODUCT(product[0])] = this.#saveValue(product);
     }
     this.#products[product[0]] = this.#saveValue(product);
   }
@@ -47,7 +48,7 @@ export class Inventory {
   }
 
   isPromotionProduct(product) {
-    return this.getProductInfo(`${product}pro`) !== undefined;
+    return this.getProductInfo(PROMOTION_PRODUCT(product)) !== undefined;
   }
 
   hasQuantity(product, quantity) {

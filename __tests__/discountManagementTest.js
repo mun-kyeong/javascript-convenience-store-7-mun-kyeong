@@ -8,6 +8,7 @@ import { DiscountManagement } from "../src/utils/discountManagement";
 describe("할인 관리자 클래스 테스트", () => {
   let inventory;
   let promotion;
+
   beforeEach(async () => {
     const products = await readDocs("products");
     const promotions = await readDocs("promotions");

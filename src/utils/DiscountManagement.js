@@ -1,10 +1,11 @@
 import { Console } from "@woowacourse/mission-utils";
+import { PROMOTION_PRODUCT } from "../constant/convenience";
 
 export class DiscountManagement {
   #today;
+  #order;
   #promotion;
   #inventory;
-  #order;
 
   constructor(today, order, promotion, inventory) {
     this.#today = today;
@@ -29,7 +30,7 @@ export class DiscountManagement {
 
   #isPromotionActiveToday(orderInfo) {
     const orderPromotion = this.#inventory.getProductInfo(
-      `${orderInfo[0]}pro`
+      PROMOTION_PRODUCT(orderInfo[0])
     ).promotion;
     return orderPromotion !== "null";
   }
@@ -45,7 +46,7 @@ export class DiscountManagement {
   #getProductPromotionToday(orderInfo) {
     const [buy, get] = this.#promotion.getPromotiondiscount(
       this.#today,
-      this.#inventory.getProductInfo(`${orderInfo[0]}pro`).promotion
+      this.#inventory.getProductInfo(PROMOTION_PRODUCT(orderInfo[0])).promotion
     );
     const price = this.#inventory.getProductInfo(orderInfo[0]).price;
     return { quantity: get, price: price };
