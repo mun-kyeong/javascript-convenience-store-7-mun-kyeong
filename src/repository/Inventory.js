@@ -12,19 +12,22 @@ export class Inventory {
   //[ using in constructor ] start
   #saveProducts(product) {
     if (this.#isPromotion(product)) {
-      this.#products[PROMOTION_PRODUCT(product[0])] = this.#saveValue(product);
+      this.#products[PROMOTION_PRODUCT(product[0])] = this.#saveValue(
+        PROMOTION_PRODUCT(product[0]),
+        product
+      );
       return;
     }
-    this.#products[product[0]] = this.#saveValue(product);
+    this.#products[product[0]] = this.#saveValue(product[0], product);
   }
 
   #isPromotion(product) {
     return product[3] !== "null";
   }
 
-  #saveValue(product) {
+  #saveValue(productName, product) {
     return {
-      name: product[0],
+      name: productName,
       price: Number(product[1]),
       quantity: Number(product[2]),
       promotion: product[3],
@@ -38,10 +41,8 @@ export class Inventory {
     );
   }
 
-  deleteQuantity(order) {
-    order.forEach(([product, quantity]) => {
-      this.#products[product].quantity -= quantity;
-    });
+  deleteQuantity(product, quantity) {
+    this.#products[product].quantity -= quantity;
   }
 
   getProductInfo(index) {
