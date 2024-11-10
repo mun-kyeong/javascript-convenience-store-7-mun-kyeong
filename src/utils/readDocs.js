@@ -1,6 +1,6 @@
 import { Console } from "@woowacourse/mission-utils";
 import fs from "fs/promises";
-import { PRODUCTS_FILE } from "../constant/convenience";
+import { PRODUCTS_FILE } from "../constant/convenience.js";
 
 export const readDocs = async (fileName) => {
   try {

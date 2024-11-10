@@ -1,5 +1,5 @@
 import { Console } from "@woowacourse/mission-utils";
-import { PROMOTION_PRODUCT } from "./constant/convenience";
+import { PROMOTION_PRODUCT } from "./constant/convenience.js";
 
 export class InventoryManager {
   #inventory;
@@ -54,5 +54,9 @@ export class InventoryManager {
 
   getPrice(order) {
     return this.#inventory.getProductInfo(order).price;
+  }
+
+  getInventoryInfo() {
+    return this.#inventory;
   }
 }
