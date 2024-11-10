@@ -5,14 +5,16 @@ import { readDocs } from "../src/utils/readDocs";
 import { Promotion } from "../src/repository/Promotion";
 import { InventoryManager } from "../src/InventoryManager";
 import { PromotionManager } from "../src/PromotionManager";
+import { PROMOTION_PRODUCT } from "../src/constant/convenience";
 
 describe("주문목록 클래스 테스트", () => {
   let inventoryManager;
   let promotionManager;
+  let inventory;
 
   beforeEach(async () => {
     const products = await readDocs("products");
-    const inventory = new Inventory(products);
+    inventory = new Inventory(products);
     inventoryManager = new InventoryManager(inventory);
     const promotions = await readDocs("promotions");
     const promotion = new Promotion(promotions);
@@ -39,9 +41,9 @@ describe("주문목록 클래스 테스트", () => {
 
   test.each([
     ["Y", "콜라", [["콜라", 1]]],
-    ["N", , []],
+    ["N", "", []],
   ])(
-    "사용자의 프로모션 추가 여부 %d 입력 판단하기",
+    "사용자의 프로모션 추가 여부 %s 입력 판단하기",
     (userAnswer, promoionItem, result) => {
       const USER_ORDER = [
         ["콜라", 2],
@@ -50,6 +52,44 @@ describe("주문목록 클래스 테스트", () => {
       const order = new Order(USER_ORDER, inventoryManager, promotionManager);
       order.addPromotionItem(userAnswer, promoionItem);
       expect(order.getPresentInventory()).toEqual(result);
+    }
+  );
+
+  test.each([
+    [
+      "Y",
+      "콜라",
+      4,
+      [["콜라", 13]],
+      { name: "콜라pro", price: 1000, quantity: 0, promotion: "탄산2+1" },
+      { name: "콜라", price: 1000, quantity: 7, promotion: "null" },
+    ],
+    [
+      "N",
+      "콜라",
+      4,
+      [["콜라", 9]],
+      { name: "콜라pro", price: 1000, quantity: 1, promotion: "탄산2+1" },
+      { name: "콜라", price: 1000, quantity: 10, promotion: "null" },
+    ],
+  ])(
+    "사용자의 프로모션 비혜택 물품 구매 여부 %s 입력 판단하기",
+    (
+      userAnswer,
+      promoionItem,
+      noPromotionQuantity,
+      orderResult,
+      promotionResult,
+      generalResult
+    ) => {
+      const USER_ORDER = [["콜라", 13]];
+      const order = new Order(USER_ORDER, inventoryManager, promotionManager);
+      order.payForFullPrice(userAnswer, promoionItem, noPromotionQuantity);
+      expect(order.getOrderInventory()).toEqual(orderResult);
+      expect(inventory.getProductInfo(PROMOTION_PRODUCT(promoionItem))).toEqual(
+        promotionResult
+      );
+      expect(inventory.getProductInfo(promoionItem)).toEqual(generalResult);
     }
   );
 

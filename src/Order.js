@@ -31,9 +31,45 @@ export class Order {
 
   addPromotionItem(userAnswer, order) {
     if (userAnswer === "N") return;
-    const todayPromotion = this.#promotionManager.getTodayPromotion(
-      this.#orderInventory
-    );
+    const todayPromotion = this.getTodayPromotion();
     this.#presentInventory.push([order, todayPromotion[order].quantity]);
+    this.#inventoryManager.deletePromotion(
+      [[order, todayPromotion[order].quantity]],
+      todayPromotion
+    );
+  }
+
+  payForFullPrice(userAnswer, order, quantity) {
+    const todayPromotion = this.getTodayPromotion();
+    if (userAnswer === "N") {
+      this.#patOnlyPromotion(order, quantity, todayPromotion);
+      return;
+    }
+    this.#payFullPrice(order, todayPromotion);
+  }
+
+  #patOnlyPromotion(order, quantity, todayPromotion) {
+    const existOrder = this.#findExistOrder(order);
+    this.#inventoryManager.deletePromotion(
+      [[order, existOrder[1] - quantity]],
+      todayPromotion
+    );
+    if (existOrder) existOrder[1] -= quantity;
+  }
+
+  #payFullPrice(order, todayPromotion) {
+    const deleteQuantity = this.#findExistOrder(order)[1];
+    this.#inventoryManager.deletePromotion(
+      [[order, deleteQuantity]],
+      todayPromotion
+    );
+  }
+
+  #findExistOrder(orderName) {
+    return this.#orderInventory.find((item) => item[0] === orderName);
+  }
+
+  getTodayPromotion() {
+    return this.#promotionManager.getTodayPromotion(this.#orderInventory);
   }
 }

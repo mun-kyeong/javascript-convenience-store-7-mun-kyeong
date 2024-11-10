@@ -11,7 +11,9 @@ export class InventoryManager {
   deletePromotion(userOrder, todayPromtion) {
     userOrder.forEach(([order, quantity]) => {
       if (this.#isNotPromotionOrder(todayPromtion, order, quantity)) return;
+      // Console.print("2");
       if (this.#isEnoughQunatity(order, quantity)) return;
+      // Console.print("3");
 
       const availableQuantity = this.#getAvailableQuantity(order);
       this.deleteOrderQuantity(PROMOTION_PRODUCT(order), availableQuantity);
