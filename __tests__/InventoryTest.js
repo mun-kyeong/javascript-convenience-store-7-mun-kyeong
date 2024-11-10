@@ -76,10 +76,19 @@ describe("재고 관리 기능 테스트", () => {
   });
 
   test.each([
-    ["오렌지주스pro", true],
-    ["콜라pro", true],
-    ["비타민워터pro", false],
+    ["오렌지주스", true],
+    ["콜라", true],
+    ["비타민워터", false],
   ])("%s가 프모로션 상품인지 확인한다.", (product, result) => {
-    expect(inventory.getProductInfo(product) !== undefined).toBe(result);
+    expect(inventory.isPromotionProduct(product)).toBe(result);
+  });
+
+  test.each([
+    ["콜라pro", 10, true],
+    ["콜라", 11, false],
+    ["사이다pro", 8, true],
+    ["사이다", 9, false],
+  ])("재고 수량 확인", (product, quantity, result) => {
+    expect(inventory.hasQuantity(product, quantity)).toBe(result);
   });
 });

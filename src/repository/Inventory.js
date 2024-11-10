@@ -38,12 +38,19 @@ export class Inventory {
 
   deleteQuantity(order) {
     order.forEach(([product, quantity]) => {
-      Console.print(product + quantity);
       this.#products[product].quantity -= quantity;
     });
   }
 
   getProductInfo(index) {
     return this.#products[index];
+  }
+
+  isPromotionProduct(product) {
+    return this.getProductInfo(`${product}pro`) !== undefined;
+  }
+
+  hasQuantity(product, quantity) {
+    return this.#products[product].quantity >= quantity;
   }
 }
