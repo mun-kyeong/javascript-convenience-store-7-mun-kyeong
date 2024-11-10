@@ -93,19 +93,30 @@ describe("주문목록 클래스 테스트", () => {
     }
   );
 
-  // test("프로모션에 따라 무료로 제공된 증정 상품의 목록 저장", () => {
-  //   const TODAY = "2024-10-01";
-  //   const USER_ORDER = [
-  //     ["콜라", 2],
-  //     ["오렌지주스", 1],
-  //   ];
-  //   const PRESENT_ORDER_INFO = {
-  //     콜라: { quantity: 1, price: 1000 },
-  //     오렌지주스: { quantity: 1, price: 1800 },
-  //   };
-  //   const receipt = new Order(USER_ORDER, inventory);
+  test.each([
+    [[["오렌지주스", 5]], [["오렌지주스", 1]], [["오렌지주스", 4]]],
+    [[["사이다", 8]], [["사이다", 2]], [["사이다", 6]]],
+  ])("프로모션이 적용되지 않는 물품 판단", (userOrder, result, result2) => {
+    const order = new Order(userOrder, inventoryManager, promotionManager);
+    userOrder.forEach((userOrders, index) => {
+      const nonOrderInfo = order.nonPromotionOrder(
+        userOrders[0],
+        userOrders[1]
+      );
+      const orderInfo = order.promotionOrder(userOrders[0], userOrders[1]);
+      expect(nonOrderInfo).toEqual(result[index]);
+      expect(orderInfo).toEqual(result2[index]);
+    });
+  });
 
-  //   // promotion.getPromotiondiscount(TODAY, receipt.getOrderInventory());
-  //   // expect(receipt.getOrderInventory()).toEqual(PRESENT_ORDER_INFO);
-  // });
+  // test.each([
+  //   ["Y", [["콜라", 13]], 1200],
+  //   ["N", [["콜라", 10]], 300],
+  // ])(
+  //   "멤버십 할인 적용 여부 판단",
+  //   (userAnswer, userOrder, nonPromotionOrder) => {
+  //     const order = new Order(userOrder, inventoryManager, promotionManager);
+  //     order.applyMembershipDiscount(userAnswer);
+  //   }
+  // );
 });

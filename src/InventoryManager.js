@@ -48,6 +48,10 @@ export class InventoryManager {
     this.#inventory.deleteQuantity(order, quantity);
   }
 
+  getOrderQuantity(order) {
+    return this.#inventory.getProductInfo(order).quantity;
+  }
+
   getPrice(order) {
     return this.#inventory.getProductInfo(order).price;
   }

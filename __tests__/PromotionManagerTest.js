@@ -22,8 +22,8 @@ describe("할인 관리자 클래스 테스트", () => {
       ["비타민워터", 3],
     ];
     const PRESENT_INVENTORY = {
-      콜라: { quantity: 1, price: 1000 },
-      오렌지주스: { quantity: 1, price: 1800 },
+      콜라: { paidQuantity: 2, quantity: 1, price: 1000 },
+      오렌지주스: { paidQuantity: 1, quantity: 1, price: 1800 },
     };
     const discountManager = new PromotionManager(TODAY, promotion, inventory);
     const result = discountManager.getTodayPromotion(USER_ORDER);

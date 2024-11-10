@@ -48,7 +48,7 @@ export class PromotionManager {
       PROMOTION_PRODUCT(order[0])
     ).price;
 
-    return { quantity: get, price: price };
+    return { paidQuantity: buy, quantity: get, price: price };
   }
   //TODO : 추후 리팩토링 필요
 }
