@@ -3,42 +3,46 @@ import { PROMOTION_PRODUCT } from "./constant/convenience";
 
 export class InventoryManager {
   #inventory;
-  #promotion;
 
-  constructor(inventory, promotion) {
+  constructor(inventory) {
     this.#inventory = inventory;
-    this.#promotion = promotion;
   }
 
   deletePromotion(userOrder, todayPromtion) {
     userOrder.forEach(([order, quantity]) => {
-      if (
-        todayPromtion[order] === undefined ||
-        todayPromtion[order].quantity === -1
-      ) {
-        this.#inventory.deleteQuantity(order, quantity);
-        return;
-      }
-      if (this.#inventory.hasQuantity(PROMOTION_PRODUCT(order), quantity)) {
-        this.#inventory.deleteQuantity(PROMOTION_PRODUCT(order), quantity);
-        return;
-      }
+      if (this.#isNotPromotionOrder(todayPromtion, order, quantity)) return;
+      if (this.#isEnoughQunatity(order, quantity)) return;
 
-      const availableQuantity = this.#inventory.getProductInfo(
-        PROMOTION_PRODUCT(order)
-      ).quantity;
-
-      this.#inventory.deleteQuantity(
-        PROMOTION_PRODUCT(order),
-        availableQuantity
-      );
-
-      this.deleteNormal(order, quantity - availableQuantity);
+      const availableQuantity = this.#getAvailableQuantity(order);
+      this.deleteOrderQuantity(PROMOTION_PRODUCT(order), availableQuantity);
+      this.deleteOrderQuantity(order, quantity - availableQuantity);
     });
   }
-  //TODO : 함수 분할 필요
 
-  deleteNormal(order, quantity) {
+  #isNotPromotionOrder(todayPromtion, order, quantity) {
+    if (
+      todayPromtion[order] === undefined ||
+      todayPromtion[order].quantity === -1
+    ) {
+      this.deleteOrderQuantity(order, quantity);
+      return true;
+    }
+    return false;
+  }
+
+  #isEnoughQunatity(order, quantity) {
+    if (this.#inventory.hasQuantity(PROMOTION_PRODUCT(order), quantity)) {
+      this.deleteOrderQuantity(PROMOTION_PRODUCT(order), quantity);
+      return true;
+    }
+    return false;
+  }
+
+  #getAvailableQuantity(order) {
+    return this.#inventory.getProductInfo(PROMOTION_PRODUCT(order)).quantity;
+  }
+
+  deleteOrderQuantity(order, quantity) {
     this.#inventory.deleteQuantity(order, quantity);
   }
 }
