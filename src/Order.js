@@ -1,11 +1,12 @@
 import { Console } from "@woowacourse/mission-utils";
 import { Inventory } from "./repository/Inventory";
 import { PROMOTION_PRODUCT } from "./constant/convenience";
+import { Membership } from "./Membership";
 
 export class Order {
   #orderInventory = []; // 사용자가 주문한 상품명, 수량, 가격 저장
   #presentInventory = []; // 프로모션에 의해 제공된 상품명, 수량, 가격 저장
-  #membershipDiscount;
+  #membershipDiscount = 0;
   #inventoryManager;
   #promotionManager;
 
@@ -80,6 +81,20 @@ export class Order {
   //멤버십 할인 적용 여부 판단
   applyMembershipDiscount(userAnswer) {
     if (userAnswer === "N") return;
+    this.#orderInventory.forEach((order) => {
+      this.#membershipDiscount += this.#calculatePrice(order);
+    });
+
+    const membership = new Membership();
+    this.#membershipDiscount = membership.getDiscount(this.#membershipDiscount);
+  }
+
+  #calculatePrice(order) {
+    const nonPromotionOrder = this.nonPromotionOrder(order[0], order[1]);
+    return (
+      this.#inventoryManager.getPrice(nonPromotionOrder[0]) *
+      nonPromotionOrder[1]
+    );
   }
 
   nonPromotionOrder(order, quantity) {

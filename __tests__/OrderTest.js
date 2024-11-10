@@ -109,14 +109,19 @@ describe("주문목록 클래스 테스트", () => {
     });
   });
 
-  // test.each([
-  //   ["Y", [["콜라", 13]], 1200],
-  //   ["N", [["콜라", 10]], 300],
-  // ])(
-  //   "멤버십 할인 적용 여부 판단",
-  //   (userAnswer, userOrder, nonPromotionOrder) => {
-  //     const order = new Order(userOrder, inventoryManager, promotionManager);
-  //     order.applyMembershipDiscount(userAnswer);
-  //   }
-  // );
+  test.each([
+    [
+      "Y",
+      [
+        ["콜라", 7],
+        ["사이다", 6],
+      ],
+      300,
+    ],
+    ["N", [["콜라", 10]], 0],
+  ])("멤버십 할인 %s 적용 여부 판단", (userAnswer, userOrder, membership) => {
+    const order = new Order(userOrder, inventoryManager, promotionManager);
+    order.applyMembershipDiscount(userAnswer);
+    expect(order.getMembershipDiscount()).toBe(membership);
+  });
 });
