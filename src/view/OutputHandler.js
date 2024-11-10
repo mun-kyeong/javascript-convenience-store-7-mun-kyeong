@@ -1,10 +1,10 @@
 import { Console } from "@woowacourse/mission-utils";
-import { WELCOME_MESSAGE } from "../constant/helperMessage.js";
+import { HELPER_MESSAGE } from "../constant/helperMessage.js";
 import { printOneLine } from "./Console.js";
 
 export class OutputHandler {
   static async storeInfo(inventory) {
-    printOneLine(WELCOME_MESSAGE);
+    printOneLine(HELPER_MESSAGE.welcomMessage);
     Object.keys(inventory.getProduct()).forEach((product, index) => {
       const productInfo = inventory.getProductInfo(product);
       if (index === 0 || productInfo.promotion === undefined) return;
