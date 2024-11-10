@@ -1,14 +1,15 @@
 import { Console } from "@woowacourse/mission-utils";
 import { Inventory } from "./repository/Inventory";
 
-export class Receipt {
-  #userOrder = {};
-  #inventory;
+export class Order {
+  #orderInventory = {}; // 사용자가 주문한 상품명, 수량, 가격 저장
+  #presentInventory = {}; // 프로모션에 의해 제공된 상품명, 수량, 가격 저장
+  #inventory; //inventory 객체 다룸
 
   constructor(orders, inventory) {
     this.#inventory = inventory;
     orders.forEach((order) => {
-      this.#userOrder[order[0]] = this.#addOrderPirce(order);
+      this.#orderInventory[order[0]] = this.#addOrderPirce(order);
     });
   }
 
@@ -19,7 +20,7 @@ export class Receipt {
     };
   }
 
-  getUserOrder() {
-    return this.#userOrder;
+  getOrderInventory() {
+    return this.#orderInventory;
   }
 }

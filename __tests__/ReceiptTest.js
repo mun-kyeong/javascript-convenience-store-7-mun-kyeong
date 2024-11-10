@@ -1,5 +1,5 @@
 import { Console } from "@woowacourse/mission-utils";
-import { Receipt } from "../src/Receipt";
+import { Order, order, Receipt } from "../src/Order";
 import { Inventory } from "../src/repository/Inventory";
 import { readDocs } from "../src/utils/readDocs";
 
@@ -24,7 +24,7 @@ describe("영수증(Receipt) 클래스 테스트", () => {
       콜라: { quantity: 2, price: 1000 },
       사이다: { quantity: 1, price: 1000 },
     };
-    const receipt = new Receipt(USER_ORDER, inventory);
-    expect(receipt.getUserOrder()).toEqual(USER_ORDER_INFO);
+    const receipt = new Order(USER_ORDER, inventory);
+    expect(receipt.getOrderInventory()).toEqual(USER_ORDER_INFO);
   });
 });
