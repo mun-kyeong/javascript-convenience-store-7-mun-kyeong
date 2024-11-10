@@ -70,7 +70,6 @@ describe("재고관리 클래스 테스트", () => {
       const inventoryManager = new InventoryManager(inventory, promotion);
       const todayPromtion = promotionManager.getTodayPromotion(userOrder);
       inventoryManager.deletePromotion(userOrder, todayPromtion);
-      Console.print(PROMOTION_PRODUCT(userOrder[0][0]));
       if (isPromotion) {
         expect(
           inventory.getProductInfo(PROMOTION_PRODUCT(userOrder[0][0]))
