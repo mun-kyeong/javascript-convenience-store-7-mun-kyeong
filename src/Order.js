@@ -4,7 +4,7 @@ import { Inventory } from "./repository/Inventory";
 export class Order {
   #orderInventory = {}; // 사용자가 주문한 상품명, 수량, 가격 저장
   #presentInventory = {}; // 프로모션에 의해 제공된 상품명, 수량, 가격 저장
-  #inventory; //inventory 객체 다룸
+  #inventory;
 
   constructor(orders, inventory) {
     this.#inventory = inventory;

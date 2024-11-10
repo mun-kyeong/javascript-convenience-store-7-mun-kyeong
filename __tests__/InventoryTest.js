@@ -74,4 +74,12 @@ describe("재고 관리 기능 테스트", () => {
       expect(orderInfo.quantity).toBe(result[index]);
     });
   });
+
+  test.each([
+    ["오렌지주스pro", true],
+    ["콜라pro", true],
+    ["비타민워터pro", false],
+  ])("%s가 프모로션 상품인지 확인한다.", (product, result) => {
+    expect(inventory.getProductInfo(product) !== undefined).toBe(result);
+  });
 });
