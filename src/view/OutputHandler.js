@@ -30,4 +30,6 @@ export class OutputHandler {
       `- ${removeProWord} ${speratedPrice} ${nullQuentity}개 ${nullPromotion}`
     );
   }
+
+  static printRecceipt() {}
 }

@@ -19,6 +19,7 @@ export class InputHandler {
 
   static async askMebership() {
     const membershipAnswer = await getInput(HELPER_MESSAGE.membershipQuestion);
+    //TODO : 입력값들에 대한 vaildation 추가
     return membershipAnswer;
   }
 

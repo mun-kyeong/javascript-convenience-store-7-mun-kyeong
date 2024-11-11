@@ -8,6 +8,7 @@ import { Order } from "./Order.js";
 import { Promotion } from "./repository/Promotion.js";
 import { PromotionManager } from "./PromotionManager.js";
 import { getCurrentDate } from "./utils/getCurrentDate.js";
+import { OrderAmount } from "./OrderAmount.js";
 
 class App {
   async run() {
@@ -22,9 +23,12 @@ class App {
     OutputHandler.storeInfo(inventory);
     const userOrder = await InputHandler.getUserOrder();
     const order = new Order(userOrder, inventoryManager, promotionManager);
-    Console.print(order.getOrderInventory());
-    Console.print(order.getPresentInventory());
-    const orderAnswers = await InputHandler.orderQuestion(order, userOrder);
+    InputHandler.orderQuestion(order, userOrder);
+    const orderAmount = new OrderAmount(
+      order.exportManagement(),
+      inventoryManager
+    );
+    Outputoandler.printRecceipt(OrderAmount.payForOrder());
   }
 }
 

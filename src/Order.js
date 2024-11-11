@@ -23,6 +23,14 @@ export class Order {
     return this.#presentInventory;
   }
 
+  exportManagement() {
+    return {
+      order: this.#orderInventory,
+      present: this.#presentInventory,
+      membership: this.#membershipDiscount,
+    };
+  }
+
   // 프로모션 추가 여부 판단
   addPromotionItem(userAnswer, order, quantity) {
     if (userAnswer === "N") return;
