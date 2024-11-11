@@ -31,8 +31,18 @@ export class Order {
     };
   }
 
+  setPromotionOrder(userOrder) {
+    userOrder.forEach(([order, quantity]) => {
+      const promotionValue = this.promotionOrder(order, quantity);
+      if (promotionValue.length !== 0)
+        this.#presentInventory.push(promotionValue);
+    });
+  }
+
   // 프로모션 추가 여부 판단
   addPromotionItem(userAnswer, order, quantity) {
+    // this.#presentInventory = this.promotionOrder(order, quantity);
+    // Console.print("ㅁㅁㅁㅁㅁ : " + this.#presentInventory);
     if (userAnswer === "N") return;
     const todayPromotion = this.#getTodayPromotion();
     this.#presentInventory.push([order, todayPromotion[order].quantity]);
@@ -79,8 +89,6 @@ export class Order {
     let reaminQuantity = 0;
     reaminQuantity += inventoryQuantity;
     orderQuantity -= inventoryQuantity;
-
-    Console.print(reaminQuantity + " " + orderQuantity);
     const maxQuantity = Math.floor(reaminQuantity % (paidQuantity + quantity));
     return [maxQuantity, orderQuantity + maxQuantity]; //[4+6]
   }
@@ -147,9 +155,9 @@ export class Order {
       this.isNonPromotionOrder(order, todayPromotion) ||
       this.isGreaterThanOrder(order, quantity)
     )
-      return [];
+      return;
     const promotionGab = this.#getPromotionGab(order, todayPromotion);
-    return [order, Math.floor(quantity / promotionGab) * promotionGab];
+    return [order, Math.floor(quantity / promotionGab)];
   }
 
   isNonPromotionOrder(order, todayPromotion) {

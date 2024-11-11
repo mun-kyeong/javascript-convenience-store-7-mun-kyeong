@@ -13,14 +13,17 @@ export class InputHandler {
     const wait = await this.askAdditionalOrder(order, userOrders);
     const wait2 = await this.askNoPromotionOrder(order, userOrders);
     const wait3 = await this.askMebership();
-    Console.print(order.getMembershipDiscount());
+
+    Console.print(order.getOrderInventory());
+    Console.print(order.getPresentInventory());
+
     return;
   }
 
   static async askMebership() {
     const membershipAnswer = await getInput(HELPER_MESSAGE.membershipQuestion);
     //TODO : 입력값들에 대한 vaildation 추가
-    return membershipAnswer;
+    return membershipAnswer === "Y";
   }
 
   static async askNoPromotionOrder(order, userOrders) {
@@ -40,12 +43,11 @@ export class InputHandler {
       );
       order.payForFullPrice(answer, orderInfo[0], orderInfo[1]);
     }
-    Console.print(order.getOrderInventory());
-    Console.print(order.getPresentInventory());
     return;
   }
 
   static async askAdditionalOrder(order, userOrders) {
+    order.setPromotionOrder(userOrders);
     const additionalOrder = this.#hasAdditionalOrder(order, userOrders);
     if (additionalOrder.length === 0) return [];
 
@@ -55,8 +57,6 @@ export class InputHandler {
       );
       order.addPromotionItem(answer, orderInfo[0], orderInfo[1]);
     }
-    Console.print(order.getOrderInventory());
-    Console.print(order.getPresentInventory());
     return;
   }
 

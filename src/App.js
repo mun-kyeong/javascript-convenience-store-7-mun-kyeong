@@ -28,7 +28,7 @@ class App {
       order.exportManagement(),
       inventoryManager
     );
-    Outputoandler.printRecceipt(OrderAmount.payForOrder());
+    // Outputoandler.printRecceipt(OrderAmount.payForOrder());
   }
 }
 
