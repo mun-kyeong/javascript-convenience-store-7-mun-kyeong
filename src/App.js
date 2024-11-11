@@ -22,6 +22,8 @@ class App {
     OutputHandler.storeInfo(inventory);
     const userOrder = await InputHandler.getUserOrder();
     const order = new Order(userOrder, inventoryManager, promotionManager);
+    Console.print(order.getOrderInventory());
+    Console.print(order.getPresentInventory());
     const orderAnswers = await InputHandler.orderQuestion(order, userOrder);
   }
 }

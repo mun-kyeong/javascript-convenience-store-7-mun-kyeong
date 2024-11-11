@@ -24,7 +24,7 @@ export class Order {
   }
 
   // 프로모션 추가 여부 판단
-  addPromotionItem(userAnswer, order) {
+  addPromotionItem(userAnswer, order, quantity) {
     if (userAnswer === "N") return;
     const todayPromotion = this.#getTodayPromotion();
     this.#presentInventory.push([order, todayPromotion[order].quantity]);
@@ -32,6 +32,7 @@ export class Order {
       [[order, todayPromotion[order].quantity]],
       todayPromotion
     );
+    return;
   }
 
   findAdditionOrder(order, orderQuantity) {
@@ -58,19 +59,22 @@ export class Order {
 
   overPromotionOrder(order, orderQuantity) {
     const todayPromotion = this.#getTodayPromotion();
-    if (this.isNonPromotionOrder(order, todayPromotion))
-      return [0, orderQuantity];
+    const inventoryQuantity = this.#inventoryManager.getOrderQuantity(
+      PROMOTION_PRODUCT(order)
+    );
+    if (
+      this.isNonPromotionOrder(order, todayPromotion) ||
+      orderQuantity <= inventoryQuantity
+    )
+      return [0, 0];
     const { paidQuantity, quantity } = todayPromotion[order];
-    const inventoryQuantity = this.#inventoryManager.getOrderQuantity(order);
     let reaminQuantity = 0;
-    if (orderQuantity > inventoryQuantity) {
-      reaminQuantity += inventoryQuantity - quantity;
-      orderQuantity -= inventoryQuantity;
-    }
-    const maxQuantity =
-      Math.floor(orderQuantity / (paidQuantity + quantity)) *
-      (paidQuantity + quantity);
-    return [maxQuantity, reaminQuantity + orderQuantity - maxQuantity]; //[4+6]
+    reaminQuantity += inventoryQuantity;
+    orderQuantity -= inventoryQuantity;
+
+    Console.print(reaminQuantity + " " + orderQuantity);
+    const maxQuantity = Math.floor(reaminQuantity % (paidQuantity + quantity));
+    return [maxQuantity, orderQuantity + maxQuantity]; //[4+6]
   }
 
   #patOnlyPromotion(order, quantity, todayPromotion) {

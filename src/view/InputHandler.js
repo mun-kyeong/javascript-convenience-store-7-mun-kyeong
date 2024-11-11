@@ -1,7 +1,7 @@
 import { Console } from "@woowacourse/mission-utils";
 import { HELPER_MESSAGE } from "../constant/helperMessage.js";
 import { parserOrder } from "../utils/parserOrder.js";
-import { getInput } from "./Console.js";
+import { getInput, printOneLine } from "./Console.js";
 
 export class InputHandler {
   static async getUserOrder() {
@@ -9,17 +9,17 @@ export class InputHandler {
     return parserOrder(userOrder);
   }
 
-  static async askQuestion(message) {
-    const orderQuestion = await getInput(message);
-    return orderQuestion;
+  static async orderQuestion(order, userOrders) {
+    const wait = await this.askAdditionalOrder(order, userOrders);
+    const wait2 = await this.askNoPromotionOrder(order, userOrders);
+    const wait3 = await this.askMebership();
+    Console.print(order.getMembershipDiscount());
+    return;
   }
 
-  static async orderQuestion(order, userOrders) {
-    const answers = [];
-    answers.push(await this.askAdditionalOrder(order, userOrders));
-    answers.push(await this.askNoPromotionOrder(order, userOrders));
-
-    return;
+  static async askMebership() {
+    const membershipAnswer = await getInput(HELPER_MESSAGE.membershipQuestion);
+    return membershipAnswer;
   }
 
   static async askNoPromotionOrder(order, userOrders) {
@@ -32,28 +32,31 @@ export class InputHandler {
       if (noPromotionOrder !== 0)
         promotions.push([userOrder, noPromotionOrder]);
     });
-    return await this.repeatQuestion(
-      promotions,
-      HELPER_MESSAGE.noPromotionOrder
-    );
+
+    for (const orderInfo of promotions) {
+      const answer = await getInput(
+        HELPER_MESSAGE.noPromotionOrder(orderInfo[0], orderInfo[1])
+      );
+      order.payForFullPrice(answer, orderInfo[0], orderInfo[1]);
+    }
+    Console.print(order.getOrderInventory());
+    Console.print(order.getPresentInventory());
+    return;
   }
 
   static async askAdditionalOrder(order, userOrders) {
     const additionalOrder = this.#hasAdditionalOrder(order, userOrders);
     if (additionalOrder.length === 0) return [];
-    return await this.repeatQuestion(
-      additionalOrder,
-      HELPER_MESSAGE.additionalOrder
-    );
-  }
 
-  static async repeatQuestion(additionalOrder, helperMessage) {
-    const answers = [];
-    for (const order of additionalOrder) {
-      const answer = await this.askQuestion(helperMessage(order[0], order[1]));
-      answers.push(answer);
+    for (const orderInfo of additionalOrder) {
+      const answer = await getInput(
+        HELPER_MESSAGE.additionalOrder(orderInfo[0], orderInfo[1])
+      );
+      order.addPromotionItem(answer, orderInfo[0], orderInfo[1]);
     }
-    return answers;
+    Console.print(order.getOrderInventory());
+    Console.print(order.getPresentInventory());
+    return;
   }
 
   static #hasAdditionalOrder(order, userOrders) {

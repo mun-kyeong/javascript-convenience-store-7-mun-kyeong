@@ -40,17 +40,17 @@ describe("주문목록 클래스 테스트", () => {
   });
 
   test.each([
-    ["Y", "콜라", [["콜라", 1]]],
-    ["N", "", []],
+    ["Y", "콜라", 1, [["콜라", 1]]],
+    ["N", "", "", []],
   ])(
     "사용자의 프로모션 추가 여부 %s 입력 판단하기",
-    (userAnswer, promoionItem, result) => {
+    (userAnswer, promoionItem, addPromotionItem, result) => {
       const USER_ORDER = [
         ["콜라", 2],
         ["사이다", 1],
       ];
       const order = new Order(USER_ORDER, inventoryManager, promotionManager);
-      order.addPromotionItem(userAnswer, promoionItem);
+      order.addPromotionItem(userAnswer, promoionItem, addPromotionItem);
       expect(order.getPresentInventory()).toEqual(result);
     }
   );
