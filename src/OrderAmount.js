@@ -2,9 +2,8 @@ export class OrderAmount {
   #order;
   #present;
   #membership;
-  #inventoryManager;
 
-  constructor(orderInfos, inventoryManager) {
+  constructor(orderInfos) {
     this.#order = orderInfos.order;
     this.#present = orderInfos.present;
     this.#membership = orderInfos.membership;
@@ -13,13 +12,19 @@ export class OrderAmount {
 
   payForOrder() {
     return {
-      orderPayment: this.#orderPayment(this.#order),
-      presentPayment: this.#orderPayment(this.#present),
+      orderInfo: this.#orderInfo(this.#order),
+      presentInfo: this.#orderInfo(this.#present),
       totalPayment: this.#totalPayment(this.#order),
+      recucePayment: this.#totalPayment(this.#present),
+      membershipPayment: this.#membership,
+      totalPayment:
+        this.#totalPayment(this.#order) -
+        this.#membership -
+        this.#totalPayment(this.#present),
     };
   }
 
-  #orderPayment(orders) {
+  #orderInfo(orders) {
     return orders.map((order) => {
       return [order.name, order.quantity, order.price];
     });
