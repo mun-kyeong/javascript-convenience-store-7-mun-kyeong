@@ -56,6 +56,23 @@ export class Order {
     this.#payFullPrice(order, todayPromotion);
   }
 
+  overPromotionOrder(order, orderQuantity) {
+    const todayPromotion = this.#getTodayPromotion();
+    if (this.isNonPromotionOrder(order, todayPromotion))
+      return [0, orderQuantity];
+    const { paidQuantity, quantity } = todayPromotion[order];
+    const inventoryQuantity = this.#inventoryManager.getOrderQuantity(order);
+    let reaminQuantity = 0;
+    if (orderQuantity > inventoryQuantity) {
+      reaminQuantity += inventoryQuantity - quantity;
+      orderQuantity -= inventoryQuantity;
+    }
+    const maxQuantity =
+      Math.floor(orderQuantity / (paidQuantity + quantity)) *
+      (paidQuantity + quantity);
+    return [maxQuantity, reaminQuantity + orderQuantity - maxQuantity]; //[4+6]
+  }
+
   #patOnlyPromotion(order, quantity, todayPromotion) {
     const existOrder = this.#findExistOrder(order);
     this.#inventoryManager.deletePromotion(
