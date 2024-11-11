@@ -23,12 +23,11 @@ class App {
     OutputHandler.storeInfo(inventory);
     const userOrder = await InputHandler.getUserOrder();
     const order = new Order(userOrder, inventoryManager, promotionManager);
-    InputHandler.orderQuestion(order, userOrder);
-    const orderAmount = new OrderAmount(
-      order.exportManagement(),
-      inventoryManager
-    );
-    // Outputoandler.printRecceipt(OrderAmount.payForOrder());
+    const word = await InputHandler.orderQuestion(order, userOrder);
+    const orderInfo = [await order.exportManagement(), inventoryManager];
+    const orderAmount = new OrderAmount(orderInfo);
+    const payInfo = await orderAmount.payForOrder();
+    OutputHandler.printRecceipt(payInfo);
   }
 }
 

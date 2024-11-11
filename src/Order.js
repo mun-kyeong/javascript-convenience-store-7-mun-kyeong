@@ -23,7 +23,7 @@ export class Order {
     return this.#presentInventory;
   }
 
-  exportManagement() {
+  async exportManagement() {
     return {
       order: this.#orderInventory,
       present: this.#presentInventory,
@@ -41,8 +41,6 @@ export class Order {
 
   // 프로모션 추가 여부 판단
   addPromotionItem(userAnswer, order, quantity) {
-    // this.#presentInventory = this.promotionOrder(order, quantity);
-    // Console.print("ㅁㅁㅁㅁㅁ : " + this.#presentInventory);
     if (userAnswer === "N") return;
     const todayPromotion = this.#getTodayPromotion();
     this.#presentInventory.push([order, todayPromotion[order].quantity]);

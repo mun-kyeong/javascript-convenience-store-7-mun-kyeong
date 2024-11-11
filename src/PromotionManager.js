@@ -50,5 +50,4 @@ export class PromotionManager {
 
     return { paidQuantity: buy, quantity: get, price: price };
   }
-  //TODO : 추후 리팩토링 필요
 }

@@ -3,8 +3,16 @@ import path from "path";
 const PRODUCTS_FILE = (fileName) =>
   path.join(process.cwd(), `public/${fileName}.md`);
 
-const PROMOTION_PRODUCT = (product) => `${product}pro`;
-// TODO : 코드를 작성하다보니 inventory를 production과 일반으로 나누는게 좋아 보임.
-// 추후 리팩토링 필요
+const RECEPT = {
+  startLine: "==============W 편의점================",
+  header: "상품명		수량	금액",
+  presentLine: "=============증	정===============",
+  line: "====================================",
+  printOption: (name, quantity, price) => {
+    return `${name}		${quantity}	${price}`;
+  },
+};
 
-export { PRODUCTS_FILE, PROMOTION_PRODUCT };
+const PROMOTION_PRODUCT = (product) => `${product}pro`;
+
+export { PRODUCTS_FILE, PROMOTION_PRODUCT, RECEPT };

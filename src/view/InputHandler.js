@@ -13,16 +13,11 @@ export class InputHandler {
     const wait = await this.askAdditionalOrder(order, userOrders);
     const wait2 = await this.askNoPromotionOrder(order, userOrders);
     const wait3 = await this.askMebership();
-
-    Console.print(order.getOrderInventory());
-    Console.print(order.getPresentInventory());
-
     return;
   }
 
   static async askMebership() {
     const membershipAnswer = await getInput(HELPER_MESSAGE.membershipQuestion);
-    //TODO : 입력값들에 대한 vaildation 추가
     return membershipAnswer === "Y";
   }
 

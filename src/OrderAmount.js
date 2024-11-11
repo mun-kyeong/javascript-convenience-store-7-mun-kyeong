@@ -1,21 +1,24 @@
-import { Membership } from "./Membership";
+import { Console } from "@woowacourse/mission-utils";
+import { Membership } from "./Membership.js";
 
 export class OrderAmount {
   #order;
   #present;
   #membership;
-  #memebershipDiscount;
+  #memebershipDiscount = 0;
+  #inventorymanager;
 
   constructor(orderInfos) {
-    this.#order = orderInfos.order;
-    this.#present = orderInfos.present;
-    this.#membership = orderInfos.membership;
+    this.#order = orderInfos[0].order;
+    this.#present = orderInfos[0].present;
+    this.#membership = orderInfos[0].membership;
+    this.#inventorymanager = orderInfos[1];
   }
 
-  payForOrder() {
+  async payForOrder() {
     return {
       orderInfo: this.#orderInfo(this.#order),
-      presentInfo: this.#orderInfo(this.#present),
+      presentInfo: this.#orderPromotionInfo(this.#present),
       totalPayment: this.#totalPayment(this.#order),
       recucePayment: this.#totalPayment(this.#present),
       membershipPayment: this.#getMembershipDiscount(),
@@ -30,8 +33,16 @@ export class OrderAmount {
 
   #orderInfo(orders) {
     return orders.map((order) => {
-      if (!orders.includes("pro"))
-        memebershipDiscount += order.quantity * order.price;
+      const orderPrice = this.#inventorymanager.getPrice(order[0]);
+      this.#memebershipDiscount += order[1] * orderPrice;
+      return [order.name, order.quantity, order.price];
+    });
+  }
+
+  #orderPromotionInfo(orders) {
+    return orders.map((order) => {
+      const orderPrice = this.#inventorymanager.getPrice(order[0]);
+      this.#memebershipDiscount += order[1] * orderPrice;
       return [order.name, order.quantity, order.price];
     });
   }
